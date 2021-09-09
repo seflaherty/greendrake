@@ -9,7 +9,7 @@
 
 
 ## Application Architecture
-* Application Boundry
+* Application Boundary
 * Microservices Guide
 * Serverless Architecture
 * Micro Frontends
