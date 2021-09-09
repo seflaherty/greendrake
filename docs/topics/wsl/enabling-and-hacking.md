@@ -4,14 +4,14 @@ tags: wsl
 
 # Everything I Know WRT Enabling and Hacking WSL for Windows 10
 
-> Sidebar: On 2021-03-12, I took an Azure Certification Exam by Pearson and it was **very much not allowed** to have a Hyper-V running. In order to meet this pre-requisite, it was disabled. After the test (passed, btw) Docker broke and so did WSL. It took two months to figure out the toggle closed-out by the Pearson tech; resolving the blocker issue:  "...could not be started because a required feature is not installed." 
+> Sidebar: On 2021-03-12, I took an Azure Certification Exam by Pearson and it was **very much not allowed** to have a Hyper-V running. In order to meet this pre-requisite, it was disabled. After the test (passed, btw) Docker broke and so did WSL. It took two months to figure out the toggle closed-out by the Pearson tech; resolving the blocker issue:  "...could not be started because a required feature is not installed."
 😒
 
 
 ## The Toggle
 1. Open `services.msc`
-2. Locate the 'Hyper-V Host Compute Service'; Description: Provides support for running Windows Containers 
-3. Enable it to start 'Automatic' 
+2. Locate the 'Hyper-V Host Compute Service'; Description: Provides support for running Windows Containers
+3. Enable it to start 'Automatic'
 
 
 ## Prep or Re-dos
@@ -24,21 +24,21 @@ dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /nores
 # Then install the [Linux kernel package](https://aka.ms/wsl2kernel)
 
 wsl --set-default-version 2
-# Then (re-)install Ubuntu 20.04
+# Then install Ubuntu 20.04
 ```
 
 
 ## Make Windows Terminal "Nice."
-** For each textbox in Settings -> General **
-Name: "Ubuntu-20.04"
-Command line: "wsl.exe -d Ubuntu-20.04"
-Starting directory: "//wsl$/Ubuntu-20.04/home/skleuth"
-Icon: \<something-with-a-msappx-scheme>
-Tab title: \<blank>
+** By item in Settings -> General **
+- Name: "Ubuntu-20.04"
+- Command line: "wsl.exe -d Ubuntu-20.04"
+- Starting directory: "//wsl$/Ubuntu-20.04/home/skleuth"
+- Icon: \<something-with-a-msappx-scheme\>
+- Tab title: \<blank\>
 
 
 ## Hacking for Support of `systemd` into wsl
-*Via Sam Ruby's blog post: [intertwingly: Prepping a Windows Machine for Development](https://intertwingly.net/blog/2020/07/26/Prepping-a-Windows-Machine-for-Development), you can enable added Linux-y\developer-y features, but your going to have to hack that Ubuntu20.04 install.*
+Via [Prepping a Windows Machine for Development](https://intertwingly.net/blog/2020/07/26/Prepping-a-Windows-Machine-for-Development) in Sam Ruby's blog: *[You] can enable added Linux-y\/developer-y features, but your going to have to hack that Ubuntu20.04 install.*
 
 Lets work with his sequence of tasks:
 1. PS > `ubuntu2004.exe config --default-user root`
@@ -58,18 +58,18 @@ Lets work with his sequence of tasks:
 15. PS > `wsl --shutdown`
 16. PS > `wsl`
 17. YOURUSER@ubuntu: `systemctl is-active dbus`
-↩ active 
-18. YOURUSER@ubuntu: ...created an `/etc/rc.local` so a "run control" script may be used by `systemd` (caveat: This use case is deprecated)
+↩ active
+18. YOURUSER@ubuntu: ...created an `/etc/rc.local` so a "run control" script may be used by `systemd` (caveat: This use case is deprecated).
 
 ### Carryover of `systemd` support
 *tl;dr I just wanted a small webserver for some local static content.*
-1. root@ubuntu" `touch /etc/systemd/system/darkhttpd.service`
+1. root@ubuntu: `touch /etc/systemd/system/darkhttpd.service`
 2. Paste in the `darkhttpd.service` services code from below.
 3. root@ubuntu: `systemctl enable --now darkhttpd`
 4. root@ubuntu: `systemctl status darkhttpd`
 5. root@ubuntu: `systemctl daemon-reload` (optional, done re-edit to the service file)
 
-If everything has gone well, you have an `httpd` process for serving that content. Just as ordered. 
+If everything has gone well, you have an `httpd` process for serving that content. Just as ordered.
 
 ## Resources
 [Microsoft docs: WSL Troubleshooting](https://docs.microsoft.com/en-us/windows/wsl/troubleshooting)
@@ -117,7 +117,7 @@ done
 # enter systemd namespace
 exec /usr/bin/nsenter -t "${SYSTEMD_PID}" -m -p --wd="${PWD}" /sbin/runuser -s "${USHELL}" "${UNAME}" -- "${@}"
 ```
-### service darkhttpd
+### `service darkhttpd`
 ```
 [Unit]
 Description= darkhttpd simple, efficient web server
